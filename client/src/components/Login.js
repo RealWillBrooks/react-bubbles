@@ -1,9 +1,8 @@
 import React from "react";
-import { withFormik, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import axios from 'axios';
-import '../styles.scss';
-
+import { withFormik, Form, Field } from "formik";
+import * as Yup from "yup";
+import axios from "axios";
+import "../styles.scss";
 
 function Login({ touched, errors }) {
   return (
@@ -11,10 +10,11 @@ function Login({ touched, errors }) {
       <h1>Welcome to the Bubble App!</h1>
       <div className="form-box">
         <label className="label">Username</label>
-        <Field className="input"
-        name="username"
-        type="text"
-        autoComplete="off"
+        <Field
+          className="input"
+          name="username"
+          type="text"
+          autoComplete="off"
         />
         <p>{touched.username && errors.username}</p>
       </div>
@@ -34,7 +34,7 @@ function Login({ touched, errors }) {
     </Form>
   );
 }
-     
+
 export default withFormik({
   mapPropsToValues() {
     return {
@@ -46,21 +46,21 @@ export default withFormik({
   validationSchema: Yup.object().shape({
     username: Yup.string().required("Username is required"),
     password: Yup.string()
-    .min(6)
-    .required("password is required")
+      .min(6)
+      .required("password is required")
   }),
- 
+
   handleSubmit(values, formikBag) {
     const url = "http://localhost:5000/api/login";
 
-    axios 
-    .post(url,values)
-    .then(res => {
-      localStorage.setItem("token", res.data.payload);
-      formikBag.props.history.push("/bubblepage");
-    })
-    .catch(e => {
-      console.log(e.response);
-    });
+    axios
+      .post(url, values)
+      .then(res => {
+        localStorage.setItem("token", res.data.payload);
+        formikBag.props.history.push("/bubblepage");
+      })
+      .catch(e => {
+        console.log(e.response);
+      });
   }
 })(Login);

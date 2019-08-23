@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { axiosWithAuth } from '/home/willy/react-bubbles/client/src/utilities/axioswithAuth.js';
+import { axiosWithAuth } from "/home/willy/react-bubbles/client/src/utilities/axioswithAuth.js";
 
 const initialColor = {
   color: "",
@@ -28,11 +28,11 @@ const ColorList = ({ colors, updateColors, getColors }) => {
     axiosWithAuth()
       .delete(`http://localhost:5000/api/colors/${colorToEdit.id}`)
       .then(res => {
-        console.log(res)
-        const newArr = colors.filter(color => color.id != colorToEdit.id)
-        updateColors(newArr)
+        console.log(res);
+        const newArr = colors.filter(color => color.id != colorToEdit.id);
+        updateColors(newArr);
       })
-      .catch(err => console.log(err.response))
+      .catch(err => console.log(err.response));
   };
 
   const saveEdit = (event, colorToEdit) => {
@@ -41,28 +41,28 @@ const ColorList = ({ colors, updateColors, getColors }) => {
       .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
       .then(res => {
         console.log(res.data);
-        updateColors(colors.map(color => color.id != colorToEdit.id ? color : res.data))
-        setColorToEdit(initialColor)
-        // props.history.push('/bubblepage')
+        updateColors(
+          colors.map(color => (color.id != colorToEdit.id ? color : res.data))
+        );
+        setColorToEdit(initialColor);
       })
       .catch(err => {
         console.log(err.response);
       });
   };
 
-
   const addColor = (event, colorToAdd) => {
     event.preventDefault();
     axiosWithAuth()
       .post(`http://localhost:5000/api/colors/`, colorToAdd)
       .then(res => {
-        console.log(res)
+        console.log(res);
         getColors();
-        setColorToAdd(initialColor)
+        setColorToAdd(initialColor);
         // const newArr = colors.filter(color => color.id != colorToEdit.id)
         // updateColors(newArr)
       })
-      .catch(err => console.log(err.response))
+      .catch(err => console.log(err.response));
   };
 
   return (
@@ -72,7 +72,10 @@ const ColorList = ({ colors, updateColors, getColors }) => {
         {colors.map(color => (
           <li key={color.color} onClick={() => editColor(color)}>
             <span>
-              <span className="delete" onClick={(event) => deleteColor(event, color)}>
+              <span
+                className="delete"
+                onClick={event => deleteColor(event, color)}
+              >
                 x
               </span>{" "}
               {color.color}
@@ -109,19 +112,22 @@ const ColorList = ({ colors, updateColors, getColors }) => {
             />
           </label>
           <div className="button-row">
-            <button type="submit" onClick={(event) => saveEdit(event, colorToEdit)}>save</button>
+            <button
+              type="submit"
+              onClick={event => saveEdit(event, colorToEdit)}
+            >
+              save
+            </button>
             <button onClick={() => setEditing(false)}>cancel</button>
           </div>
         </form>
       )}
-      {/* <div className="spacer" /> */}
-
 
       <form onSubmit={addColor}>
-        <legend>add color</legend>
+        <legend>Add color</legend>
         <label>
           color name:
-            <input
+          <input
             onChange={e =>
               setColorToAdd({ ...colorToAdd, color: e.target.value })
             }
@@ -130,7 +136,7 @@ const ColorList = ({ colors, updateColors, getColors }) => {
         </label>
         <label>
           hex code:
-            <input
+          <input
             onChange={e =>
               setColorToAdd({
                 ...colorToAdd,
@@ -141,7 +147,9 @@ const ColorList = ({ colors, updateColors, getColors }) => {
           />
         </label>
         <div className="button-row">
-          <button type="submit" onClick={(event) => addColor(event, colorToAdd)}>save</button>
+          <button type="submit" onClick={event => addColor(event, colorToAdd)}>
+            save
+          </button>
           <button onClick={() => setAdding(false)}>cancel</button>
         </div>
       </form>
